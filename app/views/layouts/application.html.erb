@@ -4,12 +4,56 @@
     <title>Boardgameapp</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    <script src="https://kit.fontawesome.com/b5738f9938.js" crossorigin="anonymous"></script>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+      <a class="navbar-brand" href="#">
+        meet4play
+        <i class="fas fa-chess"></i>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <%= link_to 'Home', root_path, class: 'nav-link'%>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          <% if current_user.present? %>
+            <li class="nav-item active">
+              <%= link_to user_path(current_user) do %>
+                <p class="nav-link">
+                  <%= image_tag current_user.avatar.variant(resize: "30x30"), style: "border-radius: 100%" %>
+                  <%= current_user.username %>
+                </p>
+              <% end %>
+            </li>
+          <% end %>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+            <div class="dropdown-menu text-center padding-right-10" aria-labelledby="navbarDropdown">
+              <% if user_signed_in? %>
+                <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "dropdown-item") %>
+              <% else %>
+                <%= link_to('Login', new_user_session_path, class: "dropdown-item") %>
+              <% end %>
+
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </nav>
     <%= yield %>
   </body>
 </html>
