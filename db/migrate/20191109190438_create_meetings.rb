@@ -6,11 +6,13 @@ class CreateMeetings < ActiveRecord::Migration[6.0]
       t.text :description
       t.datetime :time
       t.integer :game_id
+      t.integer :host_id
 
       t.timestamps
     end
 
     add_foreign_key :meetings, :games
     add_index :meetings, :game_id
+    add_index :meetings, :host_id
   end
 end

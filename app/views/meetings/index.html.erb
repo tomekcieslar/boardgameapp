@@ -1,0 +1,38 @@
+<%= link_to 'Create', new_meeting_path, class: "btn btn-outline-success" %>
+<div class="container">
+  <div class="col-md-12">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>Hour</th>
+          <th>Name</th>
+          <th>Game</th>
+          <th>Players</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= @meetings.find_each do |meeting| %>
+          <tr>
+            <td><%= meeting.time.strftime("%d.%m.%Y") %></td>
+            <td><%= meeting.time.strftime("%H:%M") %></td>
+            <td><%= meeting.name %></td>
+            <td><%= meeting.game.title %></td>
+            <td><%= "#{meeting.users.count}/#{meeting.game.max_players}" %></td>
+            <td><%= meeting.status %></td>
+            <td>
+              <%= link_to 'Show', meeting_path(meeting), class: "btn btn-outline-warning" %>
+              <% if meeting.users.ids.include?(current_user.id) %>
+                <%= link_to 'Leave', meeting_meetings_users_path(meeting), method: :delete, class: "btn btn-outline-danger" %>
+              <% else  %>
+                <%= link_to 'Join', meeting_meetings_users_path(meeting), method: :post, class: "btn btn-outline-warning" %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

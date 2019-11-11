@@ -1,8 +1,14 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :users, only: %i(show edit update) do
-    resources :games, only: %i(index show)
+    resources :games, only: %i(index)
     put :synchronize_games
+  end
+  resources :games, only: %i(show)
+  resources :meetings, only: %i(index show edit update create new) do
+    resources :meetings_users, only: %i(create) do
+      delete :destroy, on: :collection
+    end
   end
 
   get 'home/index'

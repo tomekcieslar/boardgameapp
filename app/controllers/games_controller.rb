@@ -1,9 +1,10 @@
 class GamessController < ApplicationController
   def index
-    #code
+    user = User.find(paramss[:user_id])
+    @games = user.games
   end
 
   def show
-    @user = User.find(paramss[:id])
+    @game = Game.find(params[:id])
   end
 end

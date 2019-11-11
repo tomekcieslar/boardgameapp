@@ -62,9 +62,11 @@ ActiveRecord::Schema.define(version: 2019_11_09_191510) do
     t.text "description"
     t.datetime "time"
     t.integer "game_id"
+    t.integer "host_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["game_id"], name: "index_meetings_on_game_id"
+    t.index ["host_id"], name: "index_meetings_on_host_id"
   end
 
   create_table "meetings_users", id: false, force: :cascade do |t|

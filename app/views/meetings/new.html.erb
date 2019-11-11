@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <div class="card mt-5 mb-5 rounded-lg border border-success ">
+        <div class="card-header bg-success">
+          <h5 class="card-title text-center text-white">New Game Meeting</h5>
+        </div>
+        <div class="card-success">
+          <div class="col-md-12">
+
+            <%= form_for @meeting, url:  meetings_path, method: :post do |f| %>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <%= f.label :name %><br />
+                  <%= f.text_field :name, autofocus: true, autocomplete: "meeting name", class: "form-control" %>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <%= f.label :description %>
+                  <%= f.text_area :description, class: "form-control" %>
+                </div>
+              </div>
+
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <%= f.label :time %>
+                  <%= f.datetime_field :time, class: "form-control" %>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="form-group">
+                  <%= f.label 'Game' %>
+                  <%= f.select:game_id, current_user.games.collect {|game| [game.title, game.id]}, class: "form-control"%>
+                </div>
+              </div>
+
+
+
+              <div class="col-md-12 mt-3">
+                <div class="row">
+                  <div class="col-md-4"></div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <%= f.submit "Create meeting", class: "btn-lg btn-success text-white" %>
+                    </div>
+                  </div>
+                  <div class="col-md-4"></div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+</div>

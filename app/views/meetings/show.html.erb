@@ -1,0 +1,44 @@
+<h1><%= @meeting.name %></h1>
+<% if @meeting.users.ids.include?(current_user.id) %>
+  <%= link_to 'Leave', meeting_meetings_users_path(@meeting), method: :delete, class: "btn btn-outline-danger" %>
+<% else  %>
+  <%= link_to 'Join', meeting_meetings_users_path(@meeting), method: :post, class: "btn btn-outline-warning" %>
+<% end %>
+<%= link_to 'Chat', root_path, class: "btn btn-outline-warning" %>
+
+<div class="row">
+  <div class="col-md-3">
+
+  </div>
+  <div class="col-md-6">
+    <div class="card mt-5 mb-5 rounded-lg border border-success ">
+      <div class="card-header bg-success">
+        <h5 class="card-title text-center text-white">Choosen game</h5>
+      </div>
+      <div class="card-success">
+        <div class="col-md-12">
+            <dl class="row">
+              <dt class="col-6">Game title:</dt>
+              <dd class="col-6"><%= link_to @meeting.game.title, root_path %></dd>
+              <dt class="col-6">Time:</dt>
+              <dd class="col-6"><%= @meeting.game.real_time %></dd>
+              <dt class="col-6">Players:</dt>
+              <dd class="col-6"><%= "#{@meeting.game.min_players} - #{@meeting.game.max_players}" %></dd>
+            </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="col-md-12 mt-5 mb-5">
+      <dl class="list-group text-center">
+        <li class="list-group-item "><h3>Players</h3></li>
+        <%= @meeting.users.find_each do |user| %>
+          <li class="list-group-item">
+            <%= user.full_username %>
+          </li>
+        <% end  %>
+      </dl>
+    </div>
+  </div>
+</div>
