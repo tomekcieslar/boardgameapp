@@ -1,4 +1,4 @@
-class GamessController < ApplicationController
+class GamesController < ApplicationController
   def index
     user = User.find(paramss[:user_id])
     @games = user.games

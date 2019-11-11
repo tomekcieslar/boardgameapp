@@ -11,6 +11,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :conversations, only: [:index, :create]
+  resources :messages, only: [:create]
+  mount ActionCable.server => '/cable'
+
   get 'home/index'
 
   root to: "home#index"

@@ -13,3 +13,7 @@
  *= require_tree .
  *= require_self
  */
+
+ .grad {
+   background-image: linear-gradient(to bottom right, green , orange);
+ }

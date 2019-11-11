@@ -1,0 +1,29 @@
+<div class="col-md-12 mt-3">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 mb-2">
+        <h1><%= @game.title %></h1>
+      </div>
+      <div class="col-md-3 mr-2">
+        <%= image_tag @game.image.variant(resize_to_limit: [400, 400])  if @game.image.present?%>
+      </div>
+      <div class="col-md-3">
+        <div class="col-md-12">
+            <dl class="row">
+              <dt class="col-4">Time:</dt>
+              <dd class="col-8"><%= @game.real_time %></dd>
+              <dt class="col-4">Players:</dt>
+              <dd class="col-8"><%= "#{@game.min_players} - #{@game.max_players}" %></dd>
+            </dl>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <dl class="row">
+          <dt class="col-12">Description:</dt>
+          <dd class="col-12"><%= @game.description %></dd>
+        </dl>
+      </div>
+    </div>
+
+  </div>
+</div>

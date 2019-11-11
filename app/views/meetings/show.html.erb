@@ -19,7 +19,7 @@
         <div class="col-md-12">
             <dl class="row">
               <dt class="col-6">Game title:</dt>
-              <dd class="col-6"><%= link_to @meeting.game.title, root_path %></dd>
+              <dd class="col-6"><%= link_to @meeting.game.title, game_path(@meeting.game.id) %></dd>
               <dt class="col-6">Time:</dt>
               <dd class="col-6"><%= @meeting.game.real_time %></dd>
               <dt class="col-6">Players:</dt>
@@ -42,3 +42,5 @@
     </div>
   </div>
 </div>
+
+<div id="chatApp" data-meeting="<%= @meeting.id  %>"</div>

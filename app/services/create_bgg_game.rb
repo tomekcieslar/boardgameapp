@@ -1,4 +1,6 @@
 class CreateBggGame < ApplicationService
+  require 'open-uri'
+
   def initialize(game_id)
     @game_id = game_id
     @bgg = BggApi.new
@@ -18,9 +20,9 @@ class CreateBggGame < ApplicationService
       description: bgg_game['description'].first,
       bgg_id: bgg_game['id']
       # rating: 9,
-      # image: bgg_game['image'].first,
-      # thumbnail: bgg_game['thumbnail'].first
     )
     game.save
+    game.image.attach(io: open(bgg_game['image'].first), filename: "#{game.title}.jpg")
+    game.thumbnail.attach(io: open(bgg_game['thumbnail'].first), filename: "#{game.title}_thumbnail.jpg")
   end
 end
