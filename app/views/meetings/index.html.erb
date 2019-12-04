@@ -1,38 +1,67 @@
-<%= link_to 'Create', new_meeting_path, class: "btn btn-outline-success" %>
-<div class="container">
-  <div class="col-md-12">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Day</th>
-          <th>Hour</th>
-          <th>Name</th>
-          <th>Game</th>
-          <th>Players</th>
-          <th>Status</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <%= @meetings.find_each do |meeting| %>
-          <tr>
-            <td><%= meeting.time.strftime("%d.%m.%Y") %></td>
-            <td><%= meeting.time.strftime("%H:%M") %></td>
-            <td><%= meeting.name %></td>
-            <td><%= meeting.game.title %></td>
-            <td><%= "#{meeting.users.count}/#{meeting.game.max_players}" %></td>
-            <td><%= meeting.status %></td>
-            <td>
-              <%= link_to 'Show', meeting_path(meeting), class: "btn btn-outline-warning" %>
-              <% if meeting.users.ids.include?(current_user.id) %>
-                <%= link_to 'Leave', meeting_meetings_users_path(meeting), method: :delete, class: "btn btn-outline-danger" %>
-              <% else  %>
-                <%= link_to 'Join', meeting_meetings_users_path(meeting), method: :post, class: "btn btn-outline-warning" %>
-              <% end %>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+
+<div class="col-md-12 text-center mt-3">
+  <h3>Find Game Meeting </h3>
+  <div class="row">
+    <div class="col-md-12">
+      <%= form_tag(meetings_path, method: :get)  do %>
+        <div class="row">
+          <div class="form-group col-md-2" style="padding: 0px">
+            <%= label_tag :status %>
+            <%= select_tag :status, options_for_select(Meeting.statuses.values, selected: params[:status]), include_blank: true, onchange: 'this.form.submit()', class: "form-control"%>
+          </div>
+          <div class="form-group col-md-2" style="padding: 0px">
+            <%= label_tag "from date" %>
+            <%= date_field_tag :start_date, params[:start_date], class: "form-control"%>
+          </div>
+          <div class="form-group col-md-2" style="padding: 0px">
+            <%= label_tag "to date" %>
+            <%= date_field_tag :end_date, params[:end_date], class: "form-control"%>
+          </div>
+          <div class="form-group col-md-4" style="padding: 0px">
+            <%= label_tag :fraze %>
+            <%= text_field_tag  :search, params[:search], class: "form-control"%>
+          </div>
+          <div class="form-group col-md-2" style="padding: 0px">
+            <%= submit_tag "Search", class: "btn btn-outline-secondary", style: "margin-top: 32px"%>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
+  <table class="table table-striped text-center">
+    <thead>
+      <tr>
+        <th>Day</th>
+        <th>Hour</th>
+        <th>Name</th>
+        <th>Game</th>
+        <th>Players</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= @meetings.find_each do |meeting| %>
+        <tr>
+          <td><%= meeting.time.strftime("%d-%m-%Y") %></td>
+          <td><%= meeting.time.strftime("%H:%M") %></td>
+          <td><%= meeting.name %></td>
+          <td>
+            <%= meeting.game.title %>
+            <%= image_tag meeting.game.thumbnail.variant(resize_to_limit: [30, 30]), style: "border-radius: 20%"%>
+          </td>
+          <td><%= "#{meeting.users.count}/#{meeting.game.max_players}" %></td>
+          <td><%= meeting.status %></td>
+          <td>
+            <%= link_to 'Show', meeting_path(meeting), class: "btn btn-outline-primary" %>
+            <% if meeting.users.ids.include?(current_user.id) %>
+              <%= link_to 'Leave', meeting_meetings_users_path(meeting), method: :delete, class: "btn btn-outline-danger" %>
+            <% else  %>
+              <%= link_to 'Join', meeting_meetings_users_path(meeting), method: :post, class: "btn btn-outline-success" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>

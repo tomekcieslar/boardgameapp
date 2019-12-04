@@ -24,34 +24,48 @@
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
             <%= link_to 'Home', root_path, class: 'nav-link'%>
+          </li>
           <li class="nav-item active">
-            <%= link_to 'Find Meeting', meetings_path, class: 'nav-link'%>
+              <%= link_to meetings_path do %>
+                <p class="nav-link">
+                  Find Meeting
+                  <i class="fas fa-search"></i>
+                </p>
+              <% end %>
+          </li>
+          <li class="nav-item active">
+             <%= link_to 'My meetings', user_my_meetings_path(current_user), class: "nav-link"  if current_user.present? %>
           </li>
         </ul>
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav mr-3">
+          <% if user_signed_in? %>
+            <li class="nav-item dropdown">
+              <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-bars"></i></a>
+              <div class="dropdown-menu text-center padding-right-10" aria-labelledby="navbarDropdown">
+                <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "dropdown-item") %>
+                <div class="dropdown-divider"></div>
+                <%= link_to 'My Games', user_games_path(current_user), class: 'dropdown-item'%>
+                <div class="dropdown-divider"></div>
+                <%= link_to 'Edit profile', edit_user_path(current_user), class: 'dropdown-item'%>
+                <div class="dropdown-divider"></div>
+                <%= link_to 'Edit email/password', edit_user_registration_path, class: 'dropdown-item'%>
+              </div>
+            </li>
+          <% end %>
           <% if current_user.present? %>
             <li class="nav-item active">
               <%= link_to user_path(current_user) do %>
                 <p class="nav-link">
-                  <%= image_tag current_user.avatar.variant(resize: "30x30"), style: "border-radius: 100%" %>
+                  <%= image_tag current_user.avatar.variant(resize: "30x30"), style: "border-radius: 100%" if current_user.avatar.present?%>
                   <%= current_user.username %>
                 </p>
               <% end %>
             </li>
+          <% else  %>
+              <li class="nav-item active">
+                <%= link_to('Login', new_user_session_path, class: "nav-link") %>
+              </li>
           <% end %>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
-            <div class="dropdown-menu text-center padding-right-10" aria-labelledby="navbarDropdown">
-              <% if user_signed_in? %>
-                <%= link_to('Logout', destroy_user_session_path, method: :delete, class: "dropdown-item") %>
-              <% else %>
-                <%= link_to('Login', new_user_session_path, class: "dropdown-item") %>
-              <% end %>
-
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-          </li>
         </ul>
       </div>
     </nav>

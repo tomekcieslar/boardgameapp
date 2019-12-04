@@ -1,0 +1,39 @@
+<div class="col-md-12 text-center mt-3">
+  <h3>My meetings </h3>
+  <table class="table table-striped text-center">
+    <thead>
+      <tr>
+        <th>Day</th>
+        <th>Hour</th>
+        <th>Name</th>
+        <th>Game</th>
+        <th>Players</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= @meetings.find_each do |meeting| %>
+        <tr>
+          <td><%= meeting.time.strftime("%d-%m-%Y") %></td>
+          <td><%= meeting.time.strftime("%H:%M") %></td>
+          <td><%= meeting.name %></td>
+          <td>
+            <%= meeting.game.title %>
+            <%= image_tag meeting.game.thumbnail.variant(resize_to_limit: [30, 30]), style: "border-radius: 20%"%>
+          </td>
+          <td><%= "#{meeting.users.count}/#{meeting.game.max_players}" %></td>
+          <td><%= meeting.status %></td>
+          <td>
+            <%= link_to 'Show', meeting_path(meeting), class: "btn btn-outline-primary" %>
+            <% if meeting.users.ids.include?(current_user.id) %>
+              <%= link_to 'Leave', meeting_meetings_users_path(meeting), method: :delete, class: "btn btn-outline-danger" %>
+            <% else  %>
+              <%= link_to 'Join', meeting_meetings_users_path(meeting), method: :post, class: "btn btn-outline-success" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

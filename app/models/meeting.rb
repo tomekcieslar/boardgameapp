@@ -1,12 +1,17 @@
 class Meeting < ApplicationRecord
+  validates :game_id, presence: true
   belongs_to :game
   has_and_belongs_to_many :users
-  has_one :conversation
+  has_many :conversations
 
   enum status: {
-    not_confirmed: 'not confirmed',
+    unconfirmed: 'unconfirmed',
     confirmed: 'confirmed',
     ongoing: 'ongoing',
     finished: 'finished'
   }
+
+  def address
+    "#{city}, #{street}"
+  end
 end

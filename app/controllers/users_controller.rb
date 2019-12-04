@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
+    @games = @user.games.order(created_at: :desc).limit(5)
   end
 
   def edit
@@ -8,7 +9,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    binding.pry
     @user = User.find(params[:id])
     @user.update(user_params)
 
@@ -19,7 +19,19 @@ class UsersController < ApplicationController
     user = User.find(params[:user_id])
 
     UserGamesCollection.call(user.id)
+    flash[:success] = "All your games from BGG are synronized!"
     redirect_to user_path(user)
+  end
+
+  def my_meetings
+    @user = User.find(params[:user_id])
+    @meetings = @user.meetings
+  end
+
+  def generate_calendar_file
+    user = User.find(params[:user_id])
+    calendar = GenerateCalendar.call(user)
+    send_data calendar.to_ical, type: 'text/calendar', disposition: 'attachment', filename: "#{user.username}+#{DateTime.now}.ics"
   end
 
   private

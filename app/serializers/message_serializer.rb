@@ -2,7 +2,8 @@ class MessageSerializer < ActiveModel::Serializer
    attributes :id, :conversation_id, :text, :created_at, :user, :time
 
    def user
-     self.scope.username
+     user = User.find(object.user_id)
+     user.username
    end
 
    def time
@@ -10,7 +11,7 @@ class MessageSerializer < ActiveModel::Serializer
      if day == 0
        day = ''
      elsif day == 1
-       day = 'Tomorrow'
+       day = ' Tomorrow '
      else
        day = "#{day} days ago at "
      end

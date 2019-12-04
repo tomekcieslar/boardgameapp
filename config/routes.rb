@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :users, only: %i(show edit update) do
+    get :my_meetings
     resources :games, only: %i(index)
     put :synchronize_games
+    post :generate_calendar_file
   end
   resources :games, only: %i(show)
   resources :meetings, only: %i(index show edit update create new) do

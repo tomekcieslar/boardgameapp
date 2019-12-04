@@ -8,7 +8,7 @@ class ConversationsController < ApplicationController
 
   def create
     meeting = Meeting.find(params['meeting_id'])
-    conversation = meeting.build_conversation(conversation_params)
+    conversation = meeting.conversations.new(conversation_params)
     if conversation.save
       serialized_data = ActiveModelSerializers::Adapter::Json.new(
         ConversationSerializer.new(conversation)

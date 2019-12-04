@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_11_114859) do
+ActiveRecord::Schema.define(version: 2019_12_01_151426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,9 +57,11 @@ ActiveRecord::Schema.define(version: 2019_11_11_114859) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "games_users", id: false, force: :cascade do |t|
+  create_table "games_users", force: :cascade do |t|
     t.bigint "game_id", null: false
     t.bigint "user_id", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["game_id"], name: "index_games_users_on_game_id"
     t.index ["user_id"], name: "index_games_users_on_user_id"
   end
@@ -73,11 +75,13 @@ ActiveRecord::Schema.define(version: 2019_11_11_114859) do
     t.integer "host_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "street"
+    t.string "city"
     t.index ["game_id"], name: "index_meetings_on_game_id"
     t.index ["host_id"], name: "index_meetings_on_host_id"
   end
 
-  create_table "meetings_users", id: false, force: :cascade do |t|
+  create_table "meetings_users", force: :cascade do |t|
     t.bigint "meeting_id", null: false
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false

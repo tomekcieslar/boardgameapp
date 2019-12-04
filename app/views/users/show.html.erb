@@ -1,19 +1,55 @@
+
+<% flash.each do |key, value| %>
+      <div class="<%= flash_class(key) %>">
+            <%= value %>
+      </div>
+<% end %>
 <div class="row">
   <div class="col-md-1"></div>
   <div class="col-md-4 h4">
     <%= image_tag @user.avatar.variant(resize_to_limit: [200, 200]), style: "border-radius: 100%"  if @user.avatar.present?%>
     <%= @user.full_name %>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-2 ">
+    <%= link_to ' All Games', user_games_path(@user), class: 'btn btn-success far fa-heart'%>
   </div>
-  <div class="col-md-3"></div>
+  <div class="col-md-2">
+    <%= link_to ' Download calendar',  user_generate_calendar_file_path(@user), method: :post, class: "btn btn-danger far fa-calendar-alt" if current_user.id == @user.id %>
+  </div>
+  <div class="col-md-2">
+    <%= link_to ' Refresh My Games', user_synchronize_games_path(@user), method: :put, class: "btn btn-primary fab fa-algolia" if current_user.id == @user.id %>
+  </div>
 </div>
 <div class="row">
   <div class="col-md-1"></div>
   <div class="col-md-2 text-center">
-    <%= link_to 'Refresh My Games', user_synchronize_games_path(current_user), method: :put, class: "btn btn-warning" if current_user.id == @user.id%>
+    <%= link_to 'Edit profile', edit_user_path(current_user), class: 'btn btn-secondary far fa-edit' if current_user.id == @user.id%>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-3">
   </div>
-  <div class="col-md-3"></div>
+  <div class="col-md-6 text-center">
+    <h3>Newest Games</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Title</th>
+          <th>Players</th>
+          <th>Time</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= @games.find_each do |game| %>
+          <tr>
+            <td><%= image_tag game.thumbnail.variant(resize_to_limit: [40, 40]) %></td>
+            <td><%= game.title %></td>
+            <td><%= "#{game.min_players} - #{game.max_players}" %></td>
+            <td><%= game.real_time %></td>
+            <td> <%= link_to 'Show', game_path(game), class: "btn btn-outline-warning" %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

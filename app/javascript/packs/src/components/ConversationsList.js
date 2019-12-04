@@ -53,9 +53,11 @@ class ConversationsList extends React.Component {
             handleReceivedMessage={this.handleReceivedMessage}
           />
         ) : null}
-        <h2>Conversations</h2>
-        <ul>{mapConversations(conversations, this.handleClick)}</ul>
         <NewConversationForm meetingId={this.props.meetingId}/>
+        <h2 class="text-center">Conversations</h2>
+        <div class="btn-group" role="group" aria-label="Basic example">
+          {mapConversations(conversations, this.handleClick)}
+        </div>
         {activeConversation ? (
           <MessagesArea
             conversation={findActiveConversation(
@@ -82,9 +84,9 @@ const findActiveConversation = (conversations, activeConversation) => {
 const mapConversations = (conversations, handleClick) => {
   return conversations.map(conversation => {
     return (
-      <li key={conversation.id} onClick={() => handleClick(conversation.id)}>
+      <button type="button" class="btn btn-info"key={conversation.id} onClick={() => handleClick(conversation.id)}>
         {conversation.title}
-      </li>
+      </button>
     );
   });
 };

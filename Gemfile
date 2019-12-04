@@ -27,6 +27,8 @@ gem 'redis', '~> 4.1', '>= 4.1.3'
 gem 'active_model_serializers', '~> 0.10.0'
 # Use Active Storage variant
 gem 'image_processing', '~> 1.2'
+gem 'geocoder', '~> 1.5', '>= 1.5.2'
+gem 'icalendar', '~> 2.5', '>= 2.5.3'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false

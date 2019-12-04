@@ -1,10 +1,24 @@
 class MeetingsController < ApplicationController
   def index
-    @meetings = Meeting.all
+    status = params[:status]
+    start_date = params[:start_date]
+    end_date = params[:end_date]
+    @meetings = Meeting.all.joins(:game)
+    @meetings = @meetings.where(status: params[:status]) if status.present?
+    @meetings = @meetings.where('time > ?', start_date) if start_date.present?
+    @meetings = @meetings.where('time < ?', end_date) if end_date.present?
+    search = params[:search]
+    if search.present?
+      @meetings = @meetings.where(
+        "meetings.name ILIKE ? OR meetings.status ILIKE ? OR games.title ILIKE ?",
+        "%#{search}%", "%#{search}%", "%#{search}%"
+      ).order(time: :asc)
+    end
   end
 
   def show
     @meeting = Meeting.find(params[:id])
+    @place = Location.call(@meeting.street, @meeting.city)
   end
 
   def new
@@ -37,8 +51,18 @@ class MeetingsController < ApplicationController
       :name,
       :description,
       :time,
-      :game_id
-    ).merge(status: Meeting.statuses['not_confirmed'], host_id: current_user.id)
+      :game_id,
+      :street,
+      :city
+    ).merge(host_id: current_user.id)
+  end
+
+  def status
+    if @meeting.game.min_players <= @meeting.users.count
+      @meeting.update(status: 'confirmed')
+    else
+      @meeting.update(status: 'unconfirmed')
+    end
   end
 
   def assign_host

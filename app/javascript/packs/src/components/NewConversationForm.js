@@ -25,14 +25,20 @@ class NewConversationForm extends React.Component {
     return (
       <div className="newConversationForm">
         <form onSubmit={this.handleSubmit}>
-          <label>New Conversation:</label>
-          <br />
-          <input
-            type="text"
-            value={this.state.title}
-            onChange={this.handleChange}
-          />
-          <input type="submit" />
+          <div class="row">
+            <div class="col-md-8">
+              <input
+                type="text"
+                value={this.state.title}
+                onChange={this.handleChange}
+                class="form-control"
+                placeholder="New conversation topic"
+              />
+            </div>
+            <div class="col-md-3">
+              <input value="Create Topic" type="submit" class="btn btn-success"/>
+            </div>
+          </div>
         </form>
       </div>
     );

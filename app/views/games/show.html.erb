@@ -5,7 +5,7 @@
         <h1><%= @game.title %></h1>
       </div>
       <div class="col-md-3 mr-2">
-        <%= image_tag @game.image.variant(resize_to_limit: [400, 400])  if @game.image.present?%>
+        <%= image_tag @game.image.variant(resize_to_limit: [300, 300])  if @game.image.present?%>
       </div>
       <div class="col-md-3">
         <div class="col-md-12">
@@ -24,6 +24,5 @@
         </dl>
       </div>
     </div>
-
   </div>
 </div>
