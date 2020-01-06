@@ -31,7 +31,12 @@ class UsersController < ApplicationController
   def generate_calendar_file
     user = User.find(params[:user_id])
     calendar = GenerateCalendar.call(user)
-    send_data calendar.to_ical, type: 'text/calendar', disposition: 'attachment', filename: "#{user.username}+#{DateTime.now}.ics"
+    send_data(
+      calendar.to_ical,
+      type: 'text/calendar',
+      disposition: 'attachment',
+      filename: "#{user.username}+#{DateTime.now}.ics"
+    )
   end
 
   private
